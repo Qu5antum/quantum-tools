@@ -14,9 +14,13 @@ app = FastAPI(
     version="1.0"
 )
 
+origins = [
+    "https://quantum-tools-999c8.web.app"
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
