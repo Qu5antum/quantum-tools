@@ -60,13 +60,14 @@ async def search_videos(search_query: str):
 @app.get("/downloads")
 async def get_download(url: str, background_tasks: BackgroundTasks, format: str = "mp4", video_quality: int = 720, audio_bitrate: int = 320):
     try:
+        COOKIE_PATH = Path(__file__).parent / "youtube.com_cookies.txt"
         output_template = DOWNLOAD_DIR / "%(title)s.%(ext)s"
         
         if format == "mp3":
             ydl_opts = {
                 "outtmpl": str(output_template),
                 "format": "bestaudio/best",
-                "cookiefile": "src/youtube.com_cookies.txt",
+                "cookiefile": str(COOKIE_PATH),
                 "postprocessors": [{
                     "key": "FFmpegExtractAudio",
                     "preferredcodec": "mp3",
@@ -78,7 +79,7 @@ async def get_download(url: str, background_tasks: BackgroundTasks, format: str 
                 "outtmpl": str(output_template),
                 "format": f"bestvideo[height<={video_quality}]+bestaudio/best",
                 "merge_output_format": "mp4",
-                "cookiefile": "src/youtube.com_cookies.txt",
+                "cookiefile": str(COOKIE_PATH),
                 "postprocessors": [{
                     "key": "FFmpegVideoConvertor",
                     "preferedformat": "mp4"
