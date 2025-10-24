@@ -6,10 +6,11 @@ const { Search } = Input;
 
 export default function LinkTab({ format, quality }) {
   const [url, setUrl] = useState("");
+  const BACKEND_URL = "https://quantum-tools.onrender.com";
 
   const download = () => {
     if (!url) return;
-    const link = `http://localhost:8000/downloads?url=${encodeURIComponent(
+    const link = `${BACKEND_URL}/downloads?url=${encodeURIComponent(
       url
     )}&format=${format}&video_quality=${quality}`;
     window.open(link, "_blank");

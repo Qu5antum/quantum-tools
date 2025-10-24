@@ -13,10 +13,13 @@ app = FastAPI(
     description="Downloader",
     version="1.0"
 )
+origins = [
+    "https://quantum-tools-999c8.web.app"
+]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -63,6 +66,7 @@ async def get_download(url: str, background_tasks: BackgroundTasks, format: str 
             ydl_opts = {
                 "outtmpl": str(output_template),
                 "format": "bestaudio/best",
+                "cookiefile": "youtube.com_cookies.txt",
                 "postprocessors": [{
                     "key": "FFmpegExtractAudio",
                     "preferredcodec": "mp3",
@@ -74,6 +78,7 @@ async def get_download(url: str, background_tasks: BackgroundTasks, format: str 
                 "outtmpl": str(output_template),
                 "format": f"bestvideo[height<={video_quality}]+bestaudio/best",
                 "merge_output_format": "mp4",
+                "cookiefile": "youtube.com_cookies.txt",
                 "postprocessors": [{
                     "key": "FFmpegVideoConvertor",
                     "preferedformat": "mp4"
@@ -113,4 +118,4 @@ async def get_download(url: str, background_tasks: BackgroundTasks, format: str 
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("src.main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("src.main:app", host="0.0.0.0", port=8000)

@@ -8,11 +8,13 @@ export default function VideoSearch({ format, quality, setProgress }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
 
+  const BACKEND_URL = "https://quantum-tools.onrender.com";
+
   // 🔎 поиск видео через API FastAPI
   const searchVideos = async (value) => {
     setQuery(value);
     const res = await fetch(
-      `http://localhost:8000/search/?search_query=${encodeURIComponent(value)}`
+      `${BACKEND_URL}/search/?search_query=${encodeURIComponent(value)}`
     );
     const data = await res.json();
     setResults(data.results || []);
@@ -20,7 +22,7 @@ export default function VideoSearch({ format, quality, setProgress }) {
 
   // 📥 скачивание видео
   const download = (videoUrl) => {
-    const link = `http://localhost:8000/downloads?url=${encodeURIComponent(
+    const link = `${BACKEND_URL}/downloads?url=${encodeURIComponent(
       videoUrl
     )}&format=${format}&video_quality=${quality}`;
     window.open(link, "_blank");

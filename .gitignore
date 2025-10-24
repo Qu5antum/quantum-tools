@@ -1,2 +1,28 @@
 src/.env
 Front
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+
+# FastAPI downloads
+downloads/
+
+# yt-dlp cookies (важно!)
+youtube.com_cookies.txt
+
+# Virtual environments
+venv/
+.env/
+.env.*
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
