@@ -66,7 +66,7 @@ async def get_download(url: str, background_tasks: BackgroundTasks, format: str 
             ydl_opts = {
                 "outtmpl": str(output_template),
                 "format": "bestaudio/best",
-                "cookiefile": "youtube.com_cookies.txt",
+                "cookiefile": "src/youtube.com_cookies.txt",
                 "postprocessors": [{
                     "key": "FFmpegExtractAudio",
                     "preferredcodec": "mp3",
@@ -78,7 +78,7 @@ async def get_download(url: str, background_tasks: BackgroundTasks, format: str 
                 "outtmpl": str(output_template),
                 "format": f"bestvideo[height<={video_quality}]+bestaudio/best",
                 "merge_output_format": "mp4",
-                "cookiefile": "youtube.com_cookies.txt",
+                "cookiefile": "src/youtube.com_cookies.txt",
                 "postprocessors": [{
                     "key": "FFmpegVideoConvertor",
                     "preferedformat": "mp4"
