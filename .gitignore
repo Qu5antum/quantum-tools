@@ -12,7 +12,7 @@ __pycache__/
 downloads/
 
 # yt-dlp cookies (важно!)
-#youtube.com_cookies.txt
+youtube.com_cookies.txt
 
 # Virtual environments
 venv/
