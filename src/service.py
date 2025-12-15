@@ -41,7 +41,7 @@ async def downloading_videos(
         audio_bitrate: int,
 )-> Path:
     try:
-        COOKIE_PATH = Path(__file__).parent / "youtube.com_cookies.txt"
+        COOKIE_PATH = Path("youtube_cookies.txt")
         output_template = DOWNLOAD_DIR / "%(title)s.%(ext)s"
         
         if format == "mp3":
@@ -49,6 +49,7 @@ async def downloading_videos(
                 "outtmpl": str(output_template),
                 "format": "bestaudio/best",
                 "cookiesfrombrowser": ("chrome",),
+                "cookiefile": "youtube.com_cookies.txt",
                 "postprocessors": [{
                     "key": "FFmpegExtractAudio",
                     "preferredcodec": "mp3",
@@ -60,7 +61,8 @@ async def downloading_videos(
                 "outtmpl": str(output_template),
                 "format": f"bestvideo[height<={video_quality}]+bestaudio/best",
                 "merge_output_format": "mp4",
-                "cookiefile": str(COOKIE_PATH),
+                "cookiesfrombrowser": ("chrome",),
+                "cookiefile": "youtube.com_cookies.txt",
                 "postprocessors": [{
                     "key": "FFmpegVideoConvertor",
                     "preferedformat": "mp4"
