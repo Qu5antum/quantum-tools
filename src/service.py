@@ -13,7 +13,7 @@ DOWNLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
 youTube_client = YouTubeClient(api_key=settings.API_KEY)
 
-async def searching_videos(search_query: str)-> Path:
+async def searching_videos(search_query: str):
     try:
         data = await youTube_client.search(search_query)
         if "items" not in data or not data["items"]:
@@ -48,7 +48,7 @@ async def downloading_videos(
             ydl_opts = {
                 "outtmpl": str(output_template),
                 "format": "bestaudio/best",
-                "cookiefile": str(COOKIE_PATH),
+                "cookiesfrombrowser": ("chrome",),
                 "postprocessors": [{
                     "key": "FFmpegExtractAudio",
                     "preferredcodec": "mp3",
