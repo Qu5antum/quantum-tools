@@ -41,7 +41,7 @@ async def downloading_videos(
         audio_bitrate: int,
 )-> Path:
     try:
-        COOKIE_PATH = Path("/etc/secrets/youtube.com_cookies.txt")
+        COOKIE_PATH = Path("/youtube.com_cookies.txt")
         output_template = DOWNLOAD_DIR / "%(title)s.%(ext)s"
         
         if format == "mp3":
@@ -86,4 +86,4 @@ async def downloading_videos(
         return filename
 
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Download failed!")
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="{e}")
