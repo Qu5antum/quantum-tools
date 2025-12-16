@@ -33,7 +33,7 @@ export default function Info() {
       <div className="flex flex-wrap gap-4">
         {/* GitHub */}
         <a
-          href="https://github.com/Qu5antum"
+          href="https://github.com/Qu5antum/quantum-tools"
           target="_blank"
           rel="noopener noreferrer"
           className="flex flex-col justify-center rounded-2xl bg-gradient-to-r from-purple-700 to-purple-500 p-5 w-64 shadow-lg hover:scale-105 transition"

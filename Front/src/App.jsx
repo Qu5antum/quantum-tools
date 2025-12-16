@@ -17,7 +17,7 @@ export default function App() {
     <div className="app-container">
       {/* Sidebar */} 
       <div className="sidebar">
-        <div><img src="/images/v.jpg" alt="logo" style={{ width: "40px", height: "auto" }}  /></div>
+        <div><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6lR4KW0bkeM15WRQtaL8DeIs0hEciSKYXPA&s" alt="logo" style={{width: "40px", height: "60", borderRadius: "50%", objectFit: "cover", }}/></div>
         <button onClick={() => setTab("search")}><YoutubeOutlined /><div className="label">Youtube Search</div></button>
         <button onClick={() => setTab("link")}><LinkOutlined /><div className="label">Link</div></button>
         <button onClick={() => setTab("settings")}><SettingOutlined /><div className="label">Settings</div></button>
@@ -26,7 +26,7 @@ export default function App() {
 
       {/* Main */}
       <div className="main-content">
-        <h1 className="title font-bold"><img src="/images/v.jpg" alt="Logo" style={{ width: "30px", height: "auto" }}/>Quantum Tools</h1>
+        <h1 className="title font-bold"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6lR4KW0bkeM15WRQtaL8DeIs0hEciSKYXPA&s" alt="Logo" style={{ width: "30px", height: "auto" }}/>Quantum Tools</h1>
 
         <AnimatePresence mode="wait">
           {tab === "search" && (

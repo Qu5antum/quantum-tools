@@ -11,8 +11,8 @@ __pycache__/
 # FastAPI downloads
 downloads/
 
-# yt-dlp cookies (важно!)
-youtube.com_cookies.txt
+# yt-dlp cookies 
+#youtube.com_cookies.txt
 
 # Virtual environments
 venv/
