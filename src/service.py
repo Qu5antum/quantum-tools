@@ -49,6 +49,11 @@ async def downloading_videos(
                 "outtmpl": str(output_template),
                 "format": "bestaudio/best",
                 "cookiefile": str(COOKIE_PATH),
+                "cookiesfrombrowser": None,   
+                "nocheckcertificate": True,
+                "no_write_cookies": True,     
+                "quiet": True,
+                "no_warnings": True,
                 "postprocessors": [{
                     "key": "FFmpegExtractAudio",
                     "preferredcodec": "mp3",
@@ -61,6 +66,11 @@ async def downloading_videos(
                 "format": f"bestvideo[height<={video_quality}]+bestaudio/best",
                 "merge_output_format": "mp4",
                 "cookiefile": str(COOKIE_PATH),
+                "cookiesfrombrowser": None,   
+                "nocheckcertificate": True,
+                "no_write_cookies": True,     
+                "quiet": True,
+                "no_warnings": True,
                 "postprocessors": [{
                     "key": "FFmpegVideoConvertor",
                     "preferedformat": "mp4"
