@@ -41,7 +41,7 @@ async def downloading_videos(
         audio_bitrate: int,
 )-> Path:
     try:
-        COOKIE_PATH = Path(__file__).parent / "/etc/secrets/youtube.com_cookies.txt"
+        COOKIE_PATH = Path("/etc/secrets/youtube.com_cookies.txt")
         output_template = DOWNLOAD_DIR / "%(title)s.%(ext)s"
         
         if format == "mp3":
@@ -49,9 +49,8 @@ async def downloading_videos(
                 "outtmpl": str(output_template),
                 "format": "bestaudio/best",
                 "cookiefile": str(COOKIE_PATH),
-                "cookiesfrombrowser": None,   
-                "nocheckcertificate": True,
-                "no_write_cookies": True,     
+                "no_write_cookies": True,
+                "writecookies": False,     
                 "quiet": True,
                 "no_warnings": True,
                 "postprocessors": [{
@@ -65,10 +64,9 @@ async def downloading_videos(
                 "outtmpl": str(output_template),
                 "format": f"bestvideo[height<={video_quality}]+bestaudio/best",
                 "merge_output_format": "mp4",
-                "cookiefile": str(COOKIE_PATH),
-                "cookiesfrombrowser": None,   
-                "nocheckcertificate": True,
-                "no_write_cookies": True,     
+                "cookiefile": str(COOKIE_PATH),  
+                "no_write_cookies": True,    
+                "writecookies": False, 
                 "quiet": True,
                 "no_warnings": True,
                 "postprocessors": [{
@@ -88,4 +86,4 @@ async def downloading_videos(
         return filename
 
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail={e})
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Download failed!")
