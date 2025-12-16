@@ -41,7 +41,7 @@ async def downloading_videos(
         audio_bitrate: int,
 )-> Path:
     try:
-        COOKIE_PATH = Path("/youtube.com_cookies.txt")
+        COOKIE_PATH = Path("youtube.com_cookies.txt")
         output_template = DOWNLOAD_DIR / "%(title)s.%(ext)s"
         
         if format == "mp3":
