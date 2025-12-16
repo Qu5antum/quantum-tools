@@ -2,6 +2,7 @@ src/.env
 .Front
 /.Front/
 Front
+/Front/
 
 # Python
 __pycache__/
@@ -14,7 +15,7 @@ __pycache__/
 downloads/
 
 # yt-dlp cookies 
-#youtube.com_cookies.txt
+youtube.com_cookies.txt
 
 # Virtual environments
 venv/
