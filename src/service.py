@@ -35,18 +35,72 @@ async def searching_videos(search_query: str):
     
 
 async def downloading_videos(
+        url: str,
+        format: str,
+        video_quality: int,
+        audio_bitrate: int,
+)-> Path:
+    COOKIE_PATH = Path("youtube.com_cookies.txt")
+    output_template = DOWNLOAD_DIR / "%(title)s.%(ext)s"
+    
+    if format == "mp3":
+        ydl_opts = {
+            "outtmpl": str(output_template),
+            "format": "bestaudio/best",
+            "cookiefile": str(COOKIE_PATH),
+            "no_write_cookies": True,
+            "writecookies": False,      
+            "quiet": True,
+            "no_warnings": True,
+            "postprocessors": [{
+                "key": "FFmpegExtractAudio",
+                "preferredcodec": "mp3",
+                "preferredquality": str(audio_bitrate),
+            }]
+        }
+    elif format == "mp4":
+        ydl_opts = {
+            "outtmpl": str(output_template),
+            "format": f"bestvideo[height<={video_quality}]+bestaudio/best",
+            "merge_output_format": "mp4",
+            "cookiefile": str(COOKIE_PATH),  
+            "no_write_cookies": True,    
+            "writecookies": False, 
+            "quiet": True,
+            "no_warnings": True,
+            "postprocessors": [{
+                "key": "FFmpegVideoConvertor",
+                "preferedformat": "mp4"
+            }],
+        }
+
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        info = ydl.extract_info(url, download=True)
+        filename = Path(ydl.prepare_filename(info))
+        filename = filename.with_suffix(f".{format}")  # меняем расширение
+
+    if not filename.exists():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Файл не найден")
+    
+    return filename
+
+
+async def downloading_videos(
     url: str,
     format: str,
     video_quality: int,
     audio_bitrate: int,
 ) -> Path:
-
+    COOKIE_PATH = Path("youtube.com_cookies.txt")
     output_template = DOWNLOAD_DIR / "%(title)s.%(ext)s"
 
     if format == "mp3":
         ydl_opts = {
             "outtmpl": str(output_template),
             "format": "bestaudio/best",
+            "cookiefile": str(COOKIE_PATH),  
+            "no_write_cookies": True,    
+            "writecookies": False, 
             "quiet": True,
             "no_warnings": True,
             "postprocessors": [{
@@ -61,6 +115,9 @@ async def downloading_videos(
             "outtmpl": str(output_template),
             "format": f"bestvideo[height<={video_quality}]+bestaudio/best",
             "merge_output_format": "mp4",
+            "cookiefile": str(COOKIE_PATH),  
+            "no_write_cookies": True,    
+            "writecookies": False,
             "quiet": True,
             "no_warnings": True,
         }
