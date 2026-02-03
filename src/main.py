@@ -36,26 +36,31 @@ async def get_download(
     video_quality: int = 720,
     audio_bitrate: int = 320,
 ):
-    filename = await downloading_videos(url=url, format=format, video_quality=video_quality, audio_bitrate=audio_bitrate)
+    filename = await downloading_videos(
+        url=url,
+        format=format,
+        video_quality=video_quality,
+        audio_bitrate=audio_bitrate
+    )
+
     file_size = filename.stat().st_size
     safe_filename = quote(filename.name)
 
-    def iterfile(path: Path):
-        with path.open("rb") as file:
-            while chunk := file.read(1024 * 1024):
+    def iterfile():
+        with filename.open("rb") as f:
+            while chunk := f.read(1024 * 1024):
                 yield chunk
-    
-    # Добавляем задачу на удаление файла после отправки
+
     background_tasks.add_task(remove_file, filename)
 
     return StreamingResponse(
-        iterfile(filename),
+        iterfile(),
         media_type="application/octet-stream",
         headers={
             "Content-Disposition": f"attachment; filename*=UTF-8''{safe_filename}",
-            "Content-Length": str(file_size)
+            "Content-Length": str(file_size),
         },
-        background=background_tasks
+        background=background_tasks,
     )
      
     

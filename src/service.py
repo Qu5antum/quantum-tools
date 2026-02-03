@@ -35,51 +35,56 @@ async def searching_videos(search_query: str):
     
 
 async def downloading_videos(
-        url: str,
-        format: str,
-        video_quality: int,
-        audio_bitrate: int,
-)-> Path:
-    COOKIE_PATH = Path("youtube.com_cookies.txt")
+    url: str,
+    format: str,
+    video_quality: int,
+    audio_bitrate: int,
+) -> Path:
+
     output_template = DOWNLOAD_DIR / "%(title)s.%(ext)s"
-    
+
     if format == "mp3":
         ydl_opts = {
             "outtmpl": str(output_template),
             "format": "bestaudio/best",
-            "cookiefile": str(COOKIE_PATH),
-            "no_write_cookies": True,
-            "writecookies": False,      
             "quiet": True,
             "no_warnings": True,
             "postprocessors": [{
                 "key": "FFmpegExtractAudio",
                 "preferredcodec": "mp3",
                 "preferredquality": str(audio_bitrate),
-            }]
+            }],
         }
+
     elif format == "mp4":
         ydl_opts = {
             "outtmpl": str(output_template),
             "format": f"bestvideo[height<={video_quality}]+bestaudio/best",
             "merge_output_format": "mp4",
-            "cookiefile": str(COOKIE_PATH),  
-            "no_write_cookies": True,    
-            "writecookies": False, 
             "quiet": True,
             "no_warnings": True,
-            "postprocessors": [{
-                "key": "FFmpegVideoConvertor",
-                "preferedformat": "mp4"
-            }],
         }
+
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Неподдерживаемый формат"
+        )
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(url, download=True)
         filename = Path(ydl.prepare_filename(info))
-        filename = filename.with_suffix(f".{format}")  # меняем расширение
+
+        # yt_dlp иногда сохраняет .webm → приводим к нужному расширению
+        if format == "mp3":
+            filename = filename.with_suffix(".mp3")
+        else:
+            filename = filename.with_suffix(".mp4")
 
     if not filename.exists():
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Файл не найден")
-    
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Файл не найден после скачивания"
+        )
+
     return filename
