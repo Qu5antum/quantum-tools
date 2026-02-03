@@ -113,7 +113,10 @@ async def downloading_videos(
     elif format == "mp4":
         ydl_opts = {
             "outtmpl": str(output_template),
-            "format": f"bestvideo[height<={video_quality}]+bestaudio/best",
+            "format": (
+                f"bestvideo[height<={video_quality}]+bestaudio/best/"
+                f"best[height<={video_quality}]/best"
+            ),
             "merge_output_format": "mp4",
             "cookiefile": str(COOKIE_PATH),  
             "no_write_cookies": True,    
