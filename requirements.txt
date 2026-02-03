@@ -4,3 +4,4 @@ yt-dlp
 pydantic-settings
 aiohttp
 python-dotenv
+ffmpeg-python
